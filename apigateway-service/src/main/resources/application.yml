@@ -12,10 +12,9 @@ spring:
     name: apigateway-service
   cloud:
     gateway:
-
       default-filters:
         - name: GlobalFilter
-          # GlobalFilter 의 이너클래스인 Config 에서 properties 필드들의 값들이 매핑되는 것
+          # GlobalFilter 의 이너클래스인 Config 에서 properties 필드들의 값들이 매핑되는 용
           args:
             baseMessage: Spring Cloud GateWay Global Filter
             preLogger: true
@@ -37,4 +36,9 @@ spring:
           filters:
 #            - AddRequestHeader=second-request, second-request-header2
 #            - AddResponseHeader=second-response, second`-response-header2
-            - CustomFilter
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
