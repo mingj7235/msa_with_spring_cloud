@@ -12,6 +12,15 @@ spring:
     name: apigateway-service
   cloud:
     gateway:
+
+      default-filters:
+        - name: GlobalFilter
+          # GlobalFilter 의 이너클래스인 Config 에서 properties 필드들의 값들이 매핑되는 것
+          args:
+            baseMessage: Spring Cloud GateWay Global Filter
+            preLogger: true
+            postLogger: true
+
       routes:
         - id: first-service
           uri: http://localhost:8081/
