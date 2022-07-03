@@ -16,8 +16,13 @@ public class SecondServiceController {
     }
 
     @GetMapping ("/message")
-    public String message (@RequestHeader("second-request") String header) {
+    public String message (@RequestHeader(value = "second-request", required = false) String header) {
         log.info(header);
         return "Hello World in Second Service.";
+    }
+
+    @GetMapping ("/check")
+    public String check () {
+        return "Hi there. This is a message from Second Service";
     }
 }
