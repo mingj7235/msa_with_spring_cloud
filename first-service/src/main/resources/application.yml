@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 0 #random port 로 만들기 위해서
 
 spring:
   application:
@@ -11,4 +11,5 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}} #random port로 구현하고 eureka 에서 복수의 인스턴스로 인식시키기위함
