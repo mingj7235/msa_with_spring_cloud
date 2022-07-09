@@ -1,24 +1,22 @@
 server:
-  port: 0 #random port 랜덤포트 사용
+  port: 0 #random port ???? ??
 
 spring:
   application:
-    name: user-service
+    name: catalog-service
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/msa_user_service
+    url: jdbc:mysql://localhost:3307/msa_catalog_service
     username: msa_test
     password: msatest
 
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: update
-      use-new-id-generator-mappings: false
+      ddl-auto: create-drop
     show-sql: true
-    properties:
-      hibernate.format_sql: true
+    generate-ddl: true
 
 eureka:
   instance:
@@ -29,5 +27,6 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
-greeting:
-  message: Welcome to the simple E-commerce.
+logging:
+  level:
+    com.example.catalogservice: debug
