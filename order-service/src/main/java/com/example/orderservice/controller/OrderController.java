@@ -62,4 +62,12 @@ public class OrderController {
         return ResponseEntity.ok().body(result);
     }
 
+    @DeleteMapping ("/{userId}/orders/{orderId}")
+    public ResponseEntity <?> deleteOrder (@PathVariable ("userId") String userId,
+                                           @PathVariable("orderId") String orderId) {
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
 }
