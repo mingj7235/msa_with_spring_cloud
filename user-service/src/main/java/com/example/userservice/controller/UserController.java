@@ -1,5 +1,6 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.config.CustomModelMapperConfig;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.UserEntity;
 import com.example.userservice.serivce.UserService;
@@ -30,6 +31,8 @@ public class UserController {
 
     private final UserService userService;
 
+    private final CustomModelMapperConfig customMapper;
+
     @GetMapping ("/health_check")
     public String status () {
         return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
@@ -43,14 +46,14 @@ public class UserController {
 
     @PostMapping ("/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser requestUser) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+//        ModelMapper mapper = new ModelMapper();
+//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-        UserDto userDto = mapper.map(requestUser, UserDto.class);
+        UserDto userDto = customMapper.strictMapper().map(requestUser, UserDto.class);
         userService.createUser(userDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(mapper.map(userDto, ResponseUser.class));
+                .body(customMapper.strictMapper().map(userDto, ResponseUser.class));
     }
 
     @GetMapping ("/users")
@@ -73,6 +76,6 @@ public class UserController {
         UserDto userDto = userService.getUserByUserId(userId);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ModelMapper().map(userDto, ResponseUser.class));
+                .body(customMapper.strictMapper().map(userDto, ResponseUser.class));
     }
 }
