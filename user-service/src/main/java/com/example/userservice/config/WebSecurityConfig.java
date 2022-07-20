@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(userService, env);
         authenticationFilter.setAuthenticationManager(authenticationManager()); //Spring Security 가 제공하는 인증 매니져
 
         return authenticationFilter;

@@ -1,5 +1,6 @@
 package com.example.userservice.serivce;
 
+import com.example.userservice.config.CustomModelMapperConfig;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.UserEntity;
 import com.example.userservice.repository.UserRepository;
@@ -26,6 +27,8 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     private final BCryptPasswordEncoder encoder;
+
+    private final CustomModelMapperConfig customModelMapper;
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
@@ -73,6 +76,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(final String email) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        if (userEntity == null)
+            throw new UsernameNotFoundException(email + "=> is not found");
+
+        return customModelMapper.strictMapper().map(userEntity, UserDto.class);
     }
 
 }
