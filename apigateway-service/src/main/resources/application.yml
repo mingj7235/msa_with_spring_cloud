@@ -51,6 +51,8 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter # 회원가입과 로그인은 인증과정이 필요없기때문에 넣지않고, 여기에만 filter를 적용해준다.
+
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -82,3 +84,6 @@ spring:
                 baseMessage: Hi, there.
                 preLogger: true
                 postLogger: true
+
+token:
+  secret: custom_user_token
