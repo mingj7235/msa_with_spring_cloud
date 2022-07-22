@@ -47,14 +47,12 @@ public class UserServiceImpl implements UserService{
     public UserDto createUser(final UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
 
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
+        UserEntity userEntity = customModelMapper.strictMapper().map(userDto, UserEntity.class);
         userEntity.setEncryptedPwd(encoder.encode(userDto.getPwd()));
 
         userRepository.save(userEntity);
 
-        return mapper.map(userEntity, UserDto.class);
+        return customModelMapper.strictMapper().map(userEntity, UserDto.class);
     }
 
     @Override
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService{
             throw new UsernameNotFoundException("User not found");
         }
 
-        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+        UserDto userDto = customModelMapper.strictMapper().map(userEntity, UserDto.class);
 
         List<ResponseOrder> orders = new ArrayList<>();
         userDto.setOrders(orders);
