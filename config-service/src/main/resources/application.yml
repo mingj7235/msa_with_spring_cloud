@@ -9,4 +9,8 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/joshua/Desktop/Study/git-local-repo
+#          uri: file:///Users/joshua/Desktop/Study/git-local-repo # file protocol ???? ???
+          uri: https://github.com/mingj7235/spring-cloud-config.git
+          default-label: main
+#          username: # private repository ? ??
+#          password:

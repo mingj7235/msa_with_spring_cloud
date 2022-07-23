@@ -10,7 +10,17 @@ eureka:
 spring:
   application:
     name: apigateway-service
+
+  profiles:
+    active: dev
+
+  config:
+    import: optional:configserver:http://localhost:8888 # config server client 설정
+
   cloud:
+    config:
+      name: ecommerce
+
     gateway:
       default-filters:
         - name: GlobalFilter
@@ -53,6 +63,15 @@ spring:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter # 회원가입과 로그인은 인증과정이 필요없기때문에 넣지않고, 여기에만 filter를 적용해준다.
 
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -85,5 +104,11 @@ spring:
                 preLogger: true
                 postLogger: true
 
-token:
-  secret: custom_user_token
+#token:
+#  secret: custom_user_token
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace

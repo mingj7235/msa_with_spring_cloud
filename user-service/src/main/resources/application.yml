@@ -12,6 +12,9 @@ spring:
   config:
     import: optional:configserver:http://localhost:8888 # config server client 설정
 
+  profiles:
+    active: dev
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3307/msa_user_service
