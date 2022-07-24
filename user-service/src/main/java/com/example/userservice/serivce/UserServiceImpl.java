@@ -74,13 +74,17 @@ public class UserServiceImpl implements UserService{
 
 //        List<ResponseOrder> orders = new ArrayList<>();
 
-        String orderUrl = "http://127.0.0.1:8000/order-service/%s/orders";
+        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+
+        // Using as rest template
         ResponseEntity<List<ResponseOrder>> orderListResponse =
                 restTemplate.exchange(orderUrl, HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<ResponseOrder>>() {
                 });
 
-        userDto.setOrders(orders);
+        List<ResponseOrder> ordersList = orderListResponse.getBody();
+
+        userDto.setOrders(ordersList);
 
         return userDto;
     }
