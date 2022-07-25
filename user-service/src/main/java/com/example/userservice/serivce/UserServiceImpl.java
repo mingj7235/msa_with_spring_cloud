@@ -1,5 +1,6 @@
 package com.example.userservice.serivce;
 
+import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.config.CustomModelMapperConfig;
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.UserEntity;
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService{
 
     private final CustomModelMapperConfig customModelMapper;
     
-    private final RestTemplate restTemplate;
+//    private final RestTemplate restTemplate;
+
+    private final OrderServiceClient orderServiceClient;
     
     private final Environment env;
 
@@ -72,17 +75,17 @@ public class UserServiceImpl implements UserService{
 
         UserDto userDto = customModelMapper.strictMapper().map(userEntity, UserDto.class);
 
-//        List<ResponseOrder> orders = new ArrayList<>();
+        // Using as rest template ******
+//        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+//        ResponseEntity<List<ResponseOrder>> orderListResponse =
+//                restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+//                new ParameterizedTypeReference<List<ResponseOrder>>() {
+//                });
+//
+//        List<ResponseOrder> ordersList = orderListResponse.getBody();
 
-        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-
-        // Using as rest template
-        ResponseEntity<List<ResponseOrder>> orderListResponse =
-                restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-                new ParameterizedTypeReference<List<ResponseOrder>>() {
-                });
-
-        List<ResponseOrder> ordersList = orderListResponse.getBody();
+        // Using as Open Feign *********
+        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
 
         userDto.setOrders(ordersList);
 
