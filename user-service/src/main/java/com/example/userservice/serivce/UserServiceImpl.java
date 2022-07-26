@@ -6,6 +6,7 @@ import com.example.userservice.dto.UserDto;
 import com.example.userservice.entity.UserEntity;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.vo.ResponseOrder;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -85,7 +86,17 @@ public class UserServiceImpl implements UserService{
 //        List<ResponseOrder> ordersList = orderListResponse.getBody();
 
         // Using as Open Feign *********
-        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
+        // Feign Exception Handling
+        /**
+         * FeignException 을 활용하면 자동적으로 FeignClient 로 받아온 정보를 제외하고 (예외가 난 곳)
+         * 정상적으로 정보를 가져올 수 있는 것은 정상적으로 호출하여 통신한다.
+         */
+        List<ResponseOrder> ordersList = null;
+        try {
+            ordersList = orderServiceClient.getOrders(userId);
+        } catch (FeignException ex) {
+            log.error(ex.getMessage());
+        }
 
         userDto.setOrders(ordersList);
 
