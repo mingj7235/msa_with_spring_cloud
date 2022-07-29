@@ -45,14 +45,11 @@ public class UserController {
 
     @GetMapping ("/welcome")
     public String welcome () {
-//        return env.getProperty("greeting.message");
         return greeting.getMessage();
     }
 
     @PostMapping ("/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser requestUser) {
-//        ModelMapper mapper = new ModelMapper();
-//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         UserDto userDto = customMapper.strictMapper().map(requestUser, UserDto.class);
         userService.createUser(userDto);
@@ -65,7 +62,6 @@ public class UserController {
     public ResponseEntity<List<ResponseUser>> getUsers () {
 
         Iterable<UserEntity> userList = userService.getUserByAll();
-
         List<ResponseUser> result = new ArrayList<>();
 
         userList.forEach( r -> {
@@ -73,7 +69,6 @@ public class UserController {
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
-
     }
 
     @GetMapping ("/users/{userId}")
