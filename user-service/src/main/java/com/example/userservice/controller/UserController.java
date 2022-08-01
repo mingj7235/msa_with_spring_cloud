@@ -10,7 +10,6 @@ import com.example.userservice.vo.ResponseUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +51,25 @@ public class UserController {
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser requestUser) {
 
         UserDto userDto = customMapper.strictMapper().map(requestUser, UserDto.class);
-        userService.createUser(userDto);
+        try {
+            userService.createUser(userDto);
+        } catch (Exception e) {
+            log.error("로그인 실패");
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(customMapper.strictMapper().map(userDto, ResponseUser.class));
+    }
+
+    @PatchMapping ("/users/{id}")
+    public ResponseEntity<ResponseUser> updateUser (@RequestBody RequestUser requestUser) {
+
+        /**
+         * 정보 수정 컨트롤러
+         */
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(null);
     }
 
     @GetMapping ("/users")
