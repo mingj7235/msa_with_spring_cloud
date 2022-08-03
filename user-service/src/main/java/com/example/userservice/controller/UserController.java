@@ -66,7 +66,7 @@ public class UserController {
 
         /**
          * 정보 수정 컨트롤러
-         */
+        */
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(null);
@@ -92,4 +92,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(customMapper.strictMapper().map(userDto, ResponseUser.class));
     }
+
+    @GetMapping ("/users/princess")
+    public ResponseEntity<String> getPrincess (@RequestParam String princessName) {
+        return ResponseEntity.ok()
+                .body(princessName);
+    }
+
+
 }
