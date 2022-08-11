@@ -1,6 +1,6 @@
 package com.example.userservice.client;
 
-import com.example.userservice.vo.ResponseOrder;
+import com.example.userservice.vo.response.ResponseOrder;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

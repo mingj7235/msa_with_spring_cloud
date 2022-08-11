@@ -2,7 +2,7 @@ package com.example.userservice.Filter;
 
 import com.example.userservice.dto.UserDto;
 import com.example.userservice.serivce.UserService;
-import com.example.userservice.vo.RequestLogin;
+import com.example.userservice.vo.request.RequestLogin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
