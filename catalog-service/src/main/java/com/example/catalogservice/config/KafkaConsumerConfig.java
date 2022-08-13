@@ -15,6 +15,10 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
+    /**
+     * Kakfa config -> consumer Factory
+     */
+
     @Bean
     public ConsumerFactory<String, String> consumerFactory () {
         Map<String, Object> properties = new HashMap<>();
