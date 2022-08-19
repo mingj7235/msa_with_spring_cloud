@@ -3,6 +3,7 @@ package com.example.orderservice.messagequeue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.ProducerFactory;
 
@@ -18,5 +19,13 @@ public class KafkaProducerConfig {
         Map<String, Object> properties = new HashMap<>();
 
         return new DefaultKafkaProducerFactory<>(properties);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory () {
+        ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+
+        return kafkaListenerContainerFactory;
     }
 }
